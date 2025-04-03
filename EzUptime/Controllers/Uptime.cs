@@ -20,7 +20,10 @@ namespace EzUptime.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var results = _monitor.Monitors.Values.Select(m => m.GetHistory());
+            var results = _monitor.Monitors.Select(x =>
+            {
+                return (group: x.Key, values: x.Value.Select(v => v.Value.GetHistory()));
+            }).ToDictionary(x => x.group, x => x.values);
             return Ok(results);
         }
         

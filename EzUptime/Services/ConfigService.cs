@@ -12,7 +12,7 @@ namespace EzUptime.Services
         private IDeserializer yaml;
         ILogger<ConfigService> _logger;
         MonitoringService _monitors;
-        public List<MonitoringConfigDto> Configs { get; private set; } = new();
+        public Dictionary<string, List<MonitoringConfigDto>> Configs { get; private set; } = new();
 
         public ConfigService(ILogger<ConfigService> logger, MonitoringService monitor)
         {
@@ -30,11 +30,12 @@ namespace EzUptime.Services
             try
             {
                 var content = File.ReadAllText(configName);
-                Configs = yaml.Deserialize<List<MonitoringConfigDto>>(content);
+                Configs = yaml.Deserialize<Dictionary<string, List<MonitoringConfigDto>>>(content);
                 _logger.LogInformation($"found {Configs.Count} configs");
 
-                foreach (var config in Configs)
-                    _monitors.AddMonitor(config.Label, config);
+                foreach (var group in Configs)
+                    foreach (var config in group.Value)
+                    _monitors.AddMonitor(group.Key, config.Label, config);
             }
             catch (Exception e)
             {
@@ -49,23 +50,28 @@ namespace EzUptime.Services
                 .Build();
 
 
-            List<MonitoringConfigDto> example = new()
+            Dictionary<string, List<MonitoringConfigDto>> example = new()
             {
-                new MonitoringConfigDto
                 {
-                    Label = "localhost",
-                    Type = MonitorType.Ping,
-                    Address = "127.0.0.1",
-                    Period = 20,
-                    ResultsCap = 50
-                },
-                new MonitoringConfigDto
-                {
-                    Label = "google",
-                    Type = MonitorType.HttpGet,
-                    Address = "http://google.com",
-                    Period = 20,
-                    ResultsCap = 50
+                    "Unnamed",
+                    new() {
+                        new MonitoringConfigDto
+                        {
+                            Label = "localhost",
+                            Type = MonitorType.Ping,
+                            Address = "127.0.0.1",
+                            Period = 20,
+                            ResultsCap = 50
+                        },
+                        new MonitoringConfigDto
+                        {
+                            Label = "google",
+                            Type = MonitorType.HttpGet,
+                            Address = "http://google.com",
+                            Period = 20,
+                            ResultsCap = 50
+                        }
+                    }
                 }
             };
 

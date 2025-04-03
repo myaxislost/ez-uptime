@@ -1,6 +1,7 @@
 
 using EzUptime.Services;
 using EzUptime.Services.Monitoring;
+using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 
 namespace EzUptime
@@ -38,6 +39,25 @@ namespace EzUptime
 
             app.UseAuthorization();
 
+            app.MapGet("/", (HttpContext context) =>
+            {
+                context.Response.Redirect("/uptime");
+            });
+
+            var staticPath = Path.Combine(Directory.GetCurrentDirectory(), Path.Combine("wwwroot", "assets"));
+            if (!Directory.Exists(staticPath))
+                Directory.CreateDirectory(staticPath);
+
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(staticPath),
+                RequestPath = "/assets"
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "/uptime";
+            });
 
             app.MapControllers();
 

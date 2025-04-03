@@ -21,9 +21,9 @@ namespace EzUptime.Services.Monitoring.Monitor
         {
             return new MonitoringHistoryDto()
             {
-                ConfigDto = _config,
+                Config = _config,
                 Created = DateTime.UtcNow,
-                Resutls = _history
+                Results = _history
             };
         }
 
@@ -47,8 +47,7 @@ namespace EzUptime.Services.Monitoring.Monitor
         {
             while (!_cts.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromSeconds(_config.Period));
-                if (PingUtil.TryPingIp(_config.Address, out var result, 4, 2000))
+                if (PingUtil.TryPingIp(_config.Address, out var result, 4, 500))
                 {
                     _history.Add(new MonitoringStepDto()
                     {
@@ -72,6 +71,8 @@ namespace EzUptime.Services.Monitoring.Monitor
                 {
                     _history.RemoveAt(0);
                 }
+                await Task.Delay(TimeSpan.FromSeconds(_config.Period));
+
             }
         }
     }

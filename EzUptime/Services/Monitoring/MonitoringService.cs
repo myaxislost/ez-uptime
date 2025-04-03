@@ -7,7 +7,7 @@ namespace EzUptime.Services.Monitoring
     {
         ILogger<ConfigService> _logger;
 
-        public Dictionary<string, IMonitor> Monitors { get; private set; }
+        public Dictionary<string, Dictionary<string, IMonitor>> Monitors { get; private set; }
 
         public MonitoringService(ILogger<ConfigService> logger)
         {
@@ -15,9 +15,14 @@ namespace EzUptime.Services.Monitoring
             Monitors = new();
         }
 
-        public void AddMonitor(string name, MonitoringConfigDto config)
+        public void AddMonitor(string groupName, string name, MonitoringConfigDto config)
         {
-            if (Monitors.ContainsKey(name))
+            if (!Monitors.ContainsKey(groupName))
+                Monitors.Add(groupName, new Dictionary<string, IMonitor>());
+
+            var group = Monitors[groupName];
+
+            if (group.ContainsKey(name))
                 throw new ArgumentException($"Monitor {name} already exists");
             
             if (string.IsNullOrEmpty(name)) throw new ArgumentException("name");
@@ -27,7 +32,7 @@ namespace EzUptime.Services.Monitoring
             try
             {
                 var monitor = CreateMonitor(config);
-                Monitors.Add(name, monitor);
+                group.Add(name, monitor);
                 _logger.LogInformation($"Added monitor {name}");
             }
             catch (Exception ex) 
@@ -36,16 +41,24 @@ namespace EzUptime.Services.Monitoring
             }
         }
 
-        public void RemoveMonitor(string name)
+        public void RemoveMonitor(string groupName, string name)
         {
-            if (!Monitors.ContainsKey(name))
-                throw new FileNotFoundException($"No monitor named: {name}");
+            if (!Monitors.ContainsKey(groupName))
+                throw new FileNotFoundException($"No group named: {groupName}");
 
-            if (Monitors.Remove(name, out var monitor))
+            var group = Monitors[groupName];
+            if (!group.ContainsKey(name))
+                throw new FileNotFoundException($"No monitor named: {name} in group {groupName}");
+
+
+            if (group.Remove(name, out var monitor))
             {
                 monitor.StopMonitoring();
                 _logger.LogInformation($"Removed monitor {name}");
             }
+         
+            if (group.Count == 0)
+                Monitors.Remove(groupName);
         }
 
         private IMonitor CreateMonitor(MonitoringConfigDto config)

@@ -18,8 +18,8 @@ namespace EzUptime.Services.Monitoring.Monitor
             return new MonitoringHistoryDto()
             {
                 Created = _created,
-                ConfigDto = _config,
-                Resutls = _history
+                Config = _config,
+                Results = _history
             };
         }
 
@@ -54,7 +54,6 @@ namespace EzUptime.Services.Monitoring.Monitor
         {
             while (!_cts.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromSeconds(_config.Period));
                 try
                 {
                     var requestCts = new CancellationTokenSource();
@@ -76,6 +75,12 @@ namespace EzUptime.Services.Monitoring.Monitor
                         Timestamp = DateTime.UtcNow
                     });
                 }
+
+                if (_config.ResultsCap != null && _history.Count > _config.ResultsCap)
+                {
+                    _history.RemoveAt(0);
+                }
+                await Task.Delay(TimeSpan.FromSeconds(_config.Period));
             }
         }
     }
