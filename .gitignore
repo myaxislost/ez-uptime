@@ -3,8 +3,7 @@
 ################################################################################
 
 .vs/EzUptime
-EzUptime/bin/Debug/net8.0
+EzUptime/bin/
 EzUptime/obj
 EzUptime/config.yaml
 /.vs/ProjectEvaluation
-/EzUptime/bin/Release/net8.0
