@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+.vs/EzUptime
+EzUptime/bin/Debug/net8.0
+EzUptime/obj
+EzUptime/config.yaml
+/.vs/ProjectEvaluation
