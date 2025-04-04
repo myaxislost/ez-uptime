@@ -6,7 +6,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>E:\soft_repos\myaxislost\ez-uptime\EzUptime\bin\Publish\linux-arm64\</_PublishTargetUrl>
-    <History>True|2025-04-04T08:38:11.2036330Z||;True|2025-04-03T19:43:25.9669304+03:00||;</History>
+    <History>True|2025-04-04T08:39:54.4728623Z||;True|2025-04-04T11:38:11.2036330+03:00||;True|2025-04-03T19:43:25.9669304+03:00||;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
