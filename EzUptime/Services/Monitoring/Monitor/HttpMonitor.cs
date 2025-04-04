@@ -33,7 +33,11 @@ namespace EzUptime.Services.Monitoring.Monitor
 
             _config = config;
             _cts = new CancellationTokenSource();
-            cli = new HttpClient();
+
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+
+            cli = new HttpClient(handler);
             _created = DateTime.UtcNow;
             Task.Run(MonitoringWorker);
         }
@@ -57,7 +61,7 @@ namespace EzUptime.Services.Monitoring.Monitor
                 try
                 {
                     var requestCts = new CancellationTokenSource();
-                    requestCts.CancelAfter(TimeSpan.FromSeconds(5));
+                    requestCts.CancelAfter(TimeSpan.FromSeconds(15));
                     var startTime = DateTime.UtcNow;
                     var response = await cli.GetAsync(_config.Address, requestCts.Token);
                     _history.Add(new MonitoringStepDto()
@@ -67,7 +71,7 @@ namespace EzUptime.Services.Monitoring.Monitor
                         Timestamp = DateTime.UtcNow
                     });
                 }
-                catch
+                catch (Exception ex)
                 {
                     _history.Add(new MonitoringStepDto()
                     {
