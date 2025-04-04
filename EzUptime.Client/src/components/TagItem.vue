@@ -21,5 +21,6 @@ div {
   border-radius: 5px;
   user-select: none;
   opacity: 0.8;
+  white-space: nowrap;
 }
 </style>

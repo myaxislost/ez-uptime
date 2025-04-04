@@ -7,6 +7,8 @@ export interface MonitoringHistoryDto {
   created: string;
   results: MonitoringStepDto[];
   config: ConfigDto;
+  numErrors: number;
+  avgPing: number;
 }
 
 export class UptimeHistory {

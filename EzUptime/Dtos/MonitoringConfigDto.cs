@@ -12,7 +12,7 @@
         public string Label { get; set; }
         public MonitorType Type { get; set; }
         public string Address { get; set; }
-        public double Period { get; set; }
-        public int? ResultsCap { get; set; }
+        public double Period { get; set; } = 30;
+        public int? ResultsCap { get; set; } = 40;
     }
 }
