@@ -30,9 +30,9 @@ const findNumProblems = (groupName: string | number) => {
 </script>
 
 <template>
-  <div class="view uptime-view">
-    <div class="uptime-group" v-for="(results, group) in history.results" :key="group">
-      <span class="group-header" @click="toggleGroup(group)">
+  <main>
+    <group v-for="(results, group) in history.results" :key="group">
+      <span class="header" @click="toggleGroup(group)">
         <fa-icon icon="chevron-down" v-if="isGroupOpened(group)" />
         <fa-icon icon="chevron-up" v-else />
         {{ group }}
@@ -44,38 +44,34 @@ const findNumProblems = (groupName: string | number) => {
       <template v-if="isGroupOpened(group)">
         <UptimeBlock v-for="c in results" :key="c.config.label" :history="c" />
       </template>
-    </div>
-  </div>
+    </group>
+  </main>
 </template>
 
-<style>
-.uptime-view {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-.uptime-group {
+<style scoped>
+group {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap);
   user-select: none;
 }
-.group-header {
+group > .header {
   grid-column: 1/-1;
   display: flex;
-  gap: 10px;
+  gap: var(--gap);
   align-items: center;
 }
+
 @media (max-width: 768px) {
-  .uptime-group {
+  group {
     grid-template-columns: 1fr;
   }
 }
 
 /* Tablets (Portrait Mode) */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .uptime-group {
-    grid-template-columns: repeat(3, 1fr);
+  group {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 </style>

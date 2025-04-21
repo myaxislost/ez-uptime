@@ -6,10 +6,20 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .ui-block {
-  background-color: var(--color-bg-dark);
-  border-radius: 8px;
-  padding: 10px;
+  background-color: var(--color-block);
+  padding: 4px;
+  border-radius: calc(var(--radius) * 1.5);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow);
+}
+</style>
+
+<style>
+.flex-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
 }
 </style>

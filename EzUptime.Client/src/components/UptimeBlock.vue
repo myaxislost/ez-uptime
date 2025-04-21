@@ -14,7 +14,7 @@ defineProps<IProp>();
     <div class="uptime-block-header">
       <span>
         {{ history.config.label }}
-        <fa-icon v-if="history.numErrors > 0" icon="warning" style="color: var(--color-yellow)" />
+        <fa-icon v-if="history.numErrors > 0" icon="warning" style="color: var(--color-accent-2)" />
       </span>
       <a
         :href="'http://' + history.config.address.replace('http://', '').replace('https://', '')"
@@ -22,7 +22,7 @@ defineProps<IProp>();
       >
         {{ history.config.address }}
       </a>
-      <TagItem>{{ Math.floor(history.avgPing * 100) / 100 }} ms</TagItem>
+      <TagItem :color="'var(--color-bg)'">{{ Math.floor(history.avgPing * 100) / 100 }} ms</TagItem>
     </div>
 
     <div
@@ -41,20 +41,22 @@ defineProps<IProp>();
   </UiBlock>
 </template>
 
-<style>
+<style sco>
 .uptime-block {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 5px;
+  gap: var(--gap);
 }
 .uptime-block-header {
   display: grid;
   grid-template-columns: minmax(max-content, 90px) 1fr min-content;
-  gap: 10px;
+  gap: var(--gap);
   justify-content: space-between;
+  align-items: center;
 }
 .uptime-block-header > a {
+  font-size: 0.6rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -68,6 +70,7 @@ defineProps<IProp>();
   background-color: var(--color-accent);
   min-width: 3px;
   min-height: 10px;
+  border-radius: var(--radius);
 }
 
 .uptime-step-failure {

@@ -18,7 +18,7 @@ div {
   font-size: 0.8rem;
   background-color: var(--color-bg);
   padding: 0px 5px;
-  border-radius: 5px;
+  border-radius: var(--radius);
   user-select: none;
   opacity: 0.8;
   white-space: nowrap;

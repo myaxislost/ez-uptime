@@ -5,7 +5,6 @@ import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
 
 const EZUPTIME_URL = 'https://localhost:5051';
-// const EZUPTIME_STAGING_URL = 'http://10.8.0.30';
 
 // https://vite.dev/config/
 export default defineConfig({

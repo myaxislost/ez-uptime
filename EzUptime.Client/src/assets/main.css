@@ -1,73 +1,138 @@
 @import './base.css';
 
+#app,
 html,
-body,
-#app {
-  margin: 0;
+body {
+  width: 100%;
+  height: 100%;
   background-color: var(--color-bg);
-  margin: auto;
 }
+
 #app {
-  width: 80vw;
+  display: flex;
+}
+
+main {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap) * 2);
+  margin: 10px auto;
 }
 
 @media (max-width: 768px) {
-  #app {
-    width: 100vw;
+  main {
+    width: 100%;
+    padding: 0 10px;
   }
 }
 
-/* Tablets (Portrait Mode) */
-@media (min-width: 769px) and (max-width: 1024px) {
-  #app {
-    width: 100vw;
-  }
+button {
+  font-family: NerdFont;
+  padding: 6px 12px;
+  color: var(--color-accent-2);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-sizing: border-box;
+  min-height: 40px;
+  font-size: 0.8rem;
+  white-space: nowrap;
 }
 
-button,
-.button-red,
-.button-accent {
+button:active {
+  background-color: var(--color-dark);
+  border: 1px solid transparent;
+}
+a {
+  border-radius: var(--radius);
+}
+a:focus,
+button:focus {
+  outline: 2px solid var(--color-accent-2);
+}
+
+input {
+  font-family: NerdFont;
+  accent-color: var(--color-accent);
+}
+select {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-accent-2);
+  min-height: 40px;
+  padding: 8px;
+  border-radius: var(--radius);
+}
+
+input[type='text'],
+input[type='number'] {
+  border-radius: var(--radius);
   outline: none;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg);
   color: var(--color-text);
-  padding: 6px;
-  border-radius: 8px;
-  transition: all 0.15s;
-  cursor: pointer;
+  min-height: 40px;
+  padding: 10px;
 }
-.button-red {
-  background-color: var(--color-red);
-  color: var(--color-text);
-}
-.button-accent {
-  background-color: var(--color-accent);
-  color: var(--color-bg-dark);
+input[type='number'] {
+  -moz-appearance: textfield;
+  color: var(--color-accent-2);
 }
 
-.button-red:active,
-.button-accent:active,
-button:active {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text);
+input[type='range'] {
+  accent-color: var(--color-accent);
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-button:disabled {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-inactive);
+a {
+  color: var(--color-accent);
+}
+a:visited {
+  color: var(--color-bg);
 }
 
-h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-h4 {
-  font-size: 1.1rem;
-  font-weight: 500;
+::selection {
+  background: var(--color-accent-light);
 }
 
-.view {
-  max-height: calc(100vh - 48px);
-  overflow: scroll;
-  padding: 10px 10px;
+.accent-color-2 {
+  color: var(--color-accent-2) !important;
+}
+
+.active-bg {
+  background-color: var(--color-accent-light) !important;
+}
+.accent-clickable,
+.red-clickable {
+  transition: 0.15s all;
+}
+
+.accent-clickable:active,
+.red-clickable:active {
+  color: var(--color-dark) !important;
+}
+
+.accent-clickable:hover {
+  color: var(--color-accent);
+}
+
+.red-clickable:hover {
+  color: var(--color-red);
+}
+
+.icon {
+  font-size: 3rem;
+  margin: 0;
+  box-sizing: content-box;
+}
+
+.gap {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
 }
